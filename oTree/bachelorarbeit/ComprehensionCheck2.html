@@ -1,0 +1,62 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block content %}
+
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+    <div class="w3-container">
+        <p align="right">
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">?</button>
+        </p>
+
+        <div id="id01" class="w3-modal">
+            <div class="w3-modal-content">
+                <header class="w3-container w3-black">
+                <span onclick="document.getElementById('id01').style.display='none'"
+                class="w3-button w3-display-topright">&times;</span>
+                <h2>?</h2>
+                </header>
+                <div style="margin-top: 15px;" class="w3-container">
+                    <p>
+                        Jede Person in Ihrer Gruppe bekommt 2,- € für diese Interaktion.<br><br>
+                        Sie entscheiden, wie viel Sie von diesen 2,- € behalten wollen und wie viel (wenn überhaupt) Sie zu einem
+                        gemeinsamen Gruppenprojekt beitragen wollen (in schrittweiser Erhöhung von 2 Cent: 0, 2, 4, 6 Cent, etc.). Die
+                        gesamte, von allen Gruppenmitgliedern zum gemeinsamen Projekt beigetragene Geldsumme wird verdoppelt und in
+                        gleicher Höhe unter den 4 Gruppenmitgliedern aufgeteilt.<br><br>
+                        Entsprechend bekommt jedes Gruppenmitglied pro 2 Cent, die zu dem gemeinsamen Projekt beigetragen worden sind,
+                        1 Cent ausgezahlt.<br><br>
+                        Wenn jeder seine gesamten 2,- € zu dem gemeinsamen Projekt beiträgt, wird das Geld eines jeden Gruppenmitglieds
+                        verdoppelt: Jeder von Ihnen würde 4,- € verdienen.<br><br>
+                        Wenn alle anderen Gruppenmitglieder 2,- € beitragen, aber Sie behalten Ihre 2,- €, würden Sie 5,- € verdienen,
+                        während die anderen Mitspieler nur 3,- € erhielten.<br><br>
+                        Wenn jedoch Sie als einziger 2,- € beitragen und die anderen Gruppenmitglieder behalten Ihre 2,- €, würden Sie
+                        nur 1,- € verdienen, während die anderen Mitspieler 3,- € erhielten.<br><br>
+                        Man bekommt pro beigetragene 2 Cent nur einen Cent zurück. Persönlich verlieren Sie durch das Beitragen Geld.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <p>
+        <i><font color="red" size="4">Ihre Eingabe war nicht korrekt. Bitte denken Sie noch einmal über Ihre Antwort nach.</font></i><br>
+    </p>
+
+    {% if player.compr_check_1st_1 != 200 %}
+        {% formfield player.compr_check_2nd_1 label="Wie hoch ist der Beitrag (in Cent) der <b>für die gesamte Gruppe</b> zur höchsten Auszahlung führt?" %}
+    {% endif %}
+
+    {% if player.compr_check_1st_2 != 0 %}
+        {% formfield player.compr_check_2nd_2 label="Mit welchem Beitrag (in Cent) maximieren Sie <b>Ihr persönliches Einkommen</b>?" %}
+    {% endif %}
+
+    <br>
+
+    {% next_button %}
+
+{% endblock %}
