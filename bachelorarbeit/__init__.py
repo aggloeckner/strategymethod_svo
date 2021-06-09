@@ -263,7 +263,7 @@ class InformedConsent(Page):
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
-        with open('LabIDs/Participated.txt', 'a') as file:
+        with open('LabIds/Participated.txt', 'a') as file:
             if(player.participant.label != "1234555"):
                 file.write('\n')
                 file.write(player.participant.label)

@@ -50,7 +50,7 @@ class IdPage(Page):
             return "Fehlerhafe Decision Lab ID!"
 
         # Already participated
-        with open('LabIDs/Participated.txt', 'r') as file:
+        with open('LabIds/Participated.txt', 'r') as file:
             txt = file.read()
         if(values['DecisionLabId'] in txt and values['DecisionLabId'] != "1234555"):
             return "An dieser Studie haben Sie bereits teilgenommen!"
