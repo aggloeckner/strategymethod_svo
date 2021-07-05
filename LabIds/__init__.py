@@ -33,6 +33,12 @@ class IdPage(Page):
 
     @staticmethod
     def error_message(player, values):
+        # Enough participations
+        with open('LabIds/CountParticipation.txt', 'r') as file:
+            txt = int(file.read())
+        if txt > player.session.config['max_number_participants']:
+            return "Sie können leider nicht an dieser Studie teilnehmen, da die Erhebung der Studie beendet ist."
+
         # Only digits
         if any([c not in digits for c in values['DecisionLabId']]):
             return "Bitte nur Ziffern eingeben!"

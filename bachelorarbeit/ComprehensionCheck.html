@@ -10,7 +10,7 @@
 
     <div class="w3-container">
         <p align="right">
-            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">?</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Instruktionen erneut anzeigen</button>
         </p>
 
         <div id="id01" class="w3-modal">
@@ -18,7 +18,7 @@
                 <header class="w3-container w3-black">
                 <span onclick="document.getElementById('id01').style.display='none'"
                 class="w3-button w3-display-topright">&times;</span>
-                <h2>?</h2>
+                <h2>Instruktionen</h2>
                 </header>
                 <div style="margin-top: 15px;" class="w3-container">
                     <p>
@@ -47,9 +47,9 @@
         Bitte beantworten Sie folgende Fragen: <br>
     </p>
 
-    {% formfield player.compr_check_1st_1 label="Wie hoch ist der Beitrag (in Cent) der <b>für die gesamte Gruppe</b> zur höchsten Auszahlung führt?" %}
+    {% formfield player.compr_check_1st_1 label="Wie viel müssen Sie beitragen (in Cent), um die höchste Auszahlung <b>für die gesamte Gruppe</b> zu erreichen?" %}
 
-    {% formfield player.compr_check_1st_2 label="Mit welchem Beitrag (in Cent) maximieren Sie <b>Ihr persönliches Einkommen</b>?" %}
+    {% formfield player.compr_check_1st_2 label="Wie viel müssen Sie beitragen (in Cent), um <b>Ihr persönliches Einkommen</b> zu maximieren?" %}
 
 
 

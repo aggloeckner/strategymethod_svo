@@ -30,6 +30,12 @@ class Player(BasePlayer):
     compr_check_pass = models.BooleanField(
         initial = False
     )
+    srsn_check_pass = models.BooleanField(
+        initial = False
+    )
+    study_started = models.BooleanField(
+        initial = False
+    )
     study_completed = models.BooleanField(
         initial = False
     )
@@ -175,21 +181,7 @@ class Player(BasePlayer):
     reasons = models.LongStringField(
         label = ''
     )
-    fear_exploited_1 = models.IntegerField(
-        choices=[
-            [1, '1'],
-            [2, '2'],
-            [3, '3'],
-            [4, '4'],
-            [5, '5'],
-            [6, '6'],
-            [7, '7'],
-        ],
-        widget=widgets.RadioSelectHorizontal,
-        label = 'Befürchteten Sie, dass Ihr Beitrag verschwendet wäre?',
-        blank = True
-    )
-    fear_exploited_2 = models.IntegerField(
+    fear_exploited = models.IntegerField(
         choices=[
             [1, '1'],
             [2, '2'],
@@ -201,20 +193,6 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelectHorizontal,
         label = 'Befürchteten Sie, dass Ihre Gruppenmitglieder Sie ausbeuten könnten?',
-        blank = True
-    )
-    fear_exploited_3 = models.IntegerField(
-        choices=[
-            [1, '1'],
-            [2, '2'],
-            [3, '3'],
-            [4, '4'],
-            [5, '5'],
-            [6, '6'],
-            [7, '7'],
-        ],
-        widget=widgets.RadioSelectHorizontal,
-        label = 'Glaubten Sie, dass es eine gute Investition wäre, Geld beizutragen?',
         blank = True
     )
     effort = models.IntegerField(
@@ -248,9 +226,50 @@ class Player(BasePlayer):
         blank = True
     )
 
+def condition(p):
+#    if p.participant.label != "1234555":
+    if p.study_started:
+        return True
+    else:
+        return False
+
+# ADMINPAGE
+def vars_for_admin_report(subsession):
+    with open('LabIds/CountParticipation.txt', 'r') as file:
+        count_participants_condition = int(file.read())
+
+    count_participants_all = sum([int(p.study_completed) for p in filter(condition, subsession.get_players())])
+
+    count_participants_started = sum([int(p.study_started) for p in subsession.get_players()])
+
+    if count_participants_started > 0:
+        payoffs = sum([p.payoff for p in filter(condition, subsession.get_players())]).to_real_world_currency(subsession.session)
+    else:
+        payoffs = 0
+
+    missing_subjects = subsession.session.config['max_number_participants'] - count_participants_condition
+
+    if count_participants_condition > 0:
+        predicted_costs = (payoffs / count_participants_all) * subsession.session.config['max_number_participants'] * count_participants_started / count_participants_condition
+    else:
+        predicted_costs = "-"
+
+    return dict(
+        count_participants_condition = count_participants_condition,
+        count_participants_all = count_participants_all,
+        count_participants_started = count_participants_started,
+        payoffs = payoffs,
+        missing_subjects = missing_subjects,
+        predicted_costs = predicted_costs
+    )
+
 
 # PAGES
 class Introduction(Page):
+    def is_displayed(player):
+        player.study_started = True
+        player.payoff = player.session.config['participation_fee'] / player.session.config['real_world_currency_per_point']
+        return True
     def before_next_page(player, timeout_happened):
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
@@ -352,7 +371,7 @@ class Explain(Page):
 
 class Exploited(Page):
     form_model = 'player'
-    form_fields = ['fear_exploited_1','fear_exploited_2','fear_exploited_3']
+    form_fields = ['fear_exploited']
 
     def error_message(player, values):
         for i in values:
@@ -365,8 +384,21 @@ class SeriousnessCheck(Page):
 
     def before_next_page(player, timeout_happened):
         player.study_completed = True
+        player.payoff += player.contribution * 2
+
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+
+        if player.effort == 5 and player.attention == 5 and player.use_data:
+            player.srsn_check_pass = True
+
+        with open('LabIds/CountParticipation.txt', 'r') as file:
+            txt = int(file.read())
+            txt += 1
+        if(player.participant.label != "1234555"):
+            if player.compr_check_pass & player.use_data:
+                with open('LabIds/CountParticipation.txt', 'w') as file:
+                    file.write(str(txt))
 
 class Debriefing(Page):
     form_model = 'player'

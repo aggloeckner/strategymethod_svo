@@ -1,0 +1,37 @@
+<p>
+
+    {% if count_participants_started == 1 %}
+        Bisher hat eine Person die Studie gestartet.
+    {% else %}
+        Bisher haben {{ count_participants_started }} Personen die Studie gestartet.
+    {% endif %}
+
+    <br>
+
+    {% if count_participants_all == 1 %}
+        Davon hat eine Person vollständig an der Studie teilgenommen.
+    {% else %}
+        Davon haben {{ count_participants_all }} Personen vollständig an der Studie teilgenommen.
+    {% endif %}
+
+    <br>
+
+    {% if count_participants_condition == 1 %}
+        Davon hat <b>eine</b> Person die Instruktionen verstanden und angegeben, dass ihre Daten verwendet werden sollen.<br><br>
+    {% else %}
+        Davon haben <b>{{ count_participants_condition }}</b> Personen die Instruktionen verstanden und angegeben, dass ihre Daten verwendet werden sollen.<br><br>
+    {% endif %}
+
+
+    Bisher kostet die Studie in etwa {{ payoffs }}. <br>
+    Der Betrag kann nur geschätzt werden, da die Spieler noch nicht gematcht wurden und noch nicht
+    entschieden ist, wessen Beiträge durch die Entscheidungen in der Strategie Methode determiniert sind. <br><br>
+
+    {% if missing_subjects == 1 %}
+        Es fehlt noch <b>eine</b> Versuchsperson.
+    {% else %}
+        Es fehlen noch <b>{{ missing_subjects }}</b> Versuchspersonen.
+    {% endif %}<br><br>
+
+    Die Kosten der Studie werden sich insgesamt auf einen geschätzten Betrag von {{ predicted_costs }} belaufen.
+</p>
