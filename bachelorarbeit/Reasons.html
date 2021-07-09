@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block content %}
+
+    <p>
+        Wir interessieren uns für die Gründe Ihres Entscheidungsverhaltens in Teil <b>B</b> der Studie.
+        Deshalb möchten wir Sie bitten, im Folgenden Ihr Beitragsverhalten in der eben gezeigten Situation möglichst
+        ausführlich zu begründen.
+    </p>
+
+    {% formfield 'reasons' label="" %}
+
+    <br>
+
+    {% next_button %}
+
+    <br>
+    <p>
+        Zur Erinnerung – Teil B der Studie: <br><br>
+        <img src="{{ static 'doc/TeilB.jpg' }}" width="350px"/>
+    </p>
+
+{% endblock %}
+
+

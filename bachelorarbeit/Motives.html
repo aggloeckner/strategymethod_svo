@@ -4,8 +4,7 @@
 {% block content %}
 
     <p>
-        Bitte versetzen Sie sich jetzt noch einmal in den ersten Teil der Studie hinein, bevor Sie sich entschieden hatten,
-        wie viel Sie zu dem gemeinsamen Gruppenprojekt beitragen.
+        Außerdem bitten wir Sie, anzugeben, inwiefern folgende Gründe für Ihr Entscheidungsverhalten relevant waren.
         <br><br>
         Bitte wählen Sie zutreffendes aus (1 = Stimme überhaupt nicht zu, 7 = Stimme voll und ganz zu).
     </p>
@@ -27,6 +26,14 @@
     <br>
 
     {% next_button %}
+
+    <br>
+    <p>
+        Zur Erinnerung – Teil A der Studie: <br><br>
+        <img src="{{ static 'doc/TeilA.jpg' }}" width="350px"/><br><br>
+        Teil B der Studie: <br><br>
+        <img src="{{ static 'doc/TeilB.jpg' }}" width="350px"/>
+    </p>
 
 {% endblock %}
 

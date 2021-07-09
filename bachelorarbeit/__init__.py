@@ -182,7 +182,7 @@ class Player(BasePlayer):
         label = ''
     )
     fear_exploited = models.IntegerField(
-        choices=[
+        choices = [
             [1, '1'],
             [2, '2'],
             [3, '3'],
@@ -191,8 +191,22 @@ class Player(BasePlayer):
             [6, '6'],
             [7, '7'],
         ],
-        widget=widgets.RadioSelectHorizontal,
-        label = 'Befürchteten Sie, dass Ihre Gruppenmitglieder Sie ausbeuten könnten?',
+        widget = widgets.RadioSelectHorizontal,
+        label = 'Meine Befürchtung in Teil A der Studie war, dass meine Gruppenmitglieder mich ausbeuten würden.',
+        blank = True
+    )
+    reciprocity = models.IntegerField(
+        choices = [
+            [1, '1'],
+            [2, '2'],
+            [3, '3'],
+            [4, '4'],
+            [5, '5'],
+            [6, '6'],
+            [7, '7'],
+        ],
+        widget = widgets.RadioSelectHorizontal,
+        label = 'Mit meinem Entscheidungsverhalten in Teil B wollte ich das Verhalten meiner Mitspieler erwidern („Prinzip der Gegenseitigkeit”).',
         blank = True
     )
     effort = models.IntegerField(
@@ -292,6 +306,21 @@ class Instructions(Page):
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
+class Szenario1(Page):
+    def before_next_page(player, timeout_happened):
+        import datetime
+        player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+
+class Szenario2(Page):
+    def before_next_page(player, timeout_happened):
+        import datetime
+        player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+
+class Szenario3(Page):
+    def before_next_page(player, timeout_happened):
+        import datetime
+        player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+
 class ComprehensionCheck(Page):
     form_model = 'player'
     form_fields = ['compr_check_1st_1','compr_check_1st_2']
@@ -340,7 +369,7 @@ class ComprehensionCheck3(Page):
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
-class Contribute(Page):
+class PartA(Page):
     form_model = 'player'
     form_fields = ['contribution']
 
@@ -352,7 +381,7 @@ class Contribute(Page):
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
-class StrategyMethod(Page):
+class PartB(Page):
     form_model = 'player'
     form_fields = ['cond_coop_0','cond_coop_10','cond_coop_20','cond_coop_30','cond_coop_40','cond_coop_50','cond_coop_60','cond_coop_70','cond_coop_80','cond_coop_90','cond_coop_100','cond_coop_110','cond_coop_120','cond_coop_130','cond_coop_140','cond_coop_150','cond_coop_160','cond_coop_170','cond_coop_180','cond_coop_190','cond_coop_200']
 
@@ -365,13 +394,13 @@ class StrategyMethod(Page):
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
-class Explain(Page):
+class Reasons(Page):
     form_model = 'player'
     form_fields = ['reasons']
 
-class Exploited(Page):
+class Motives(Page):
     form_model = 'player'
-    form_fields = ['fear_exploited']
+    form_fields = ['fear_exploited','reciprocity']
 
     def error_message(player, values):
         for i in values:
@@ -415,13 +444,16 @@ page_sequence = [
     Introduction,
     InformedConsent,
     Instructions,
+    Szenario1,
+    Szenario2,
+    Szenario3,
     ComprehensionCheck,
     ComprehensionCheck2,
     ComprehensionCheck3,
-    Contribute,
-    StrategyMethod,
-    Explain,
-    Exploited,
+    PartA,
+    PartB,
+    Reasons,
+    Motives,
     SeriousnessCheck,
     Debriefing,
     Finish

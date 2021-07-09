@@ -35,21 +35,28 @@
 <body>
 
     <p>
-        Nun folgt der zweite Teil der Entscheidungssituation.<br><br>
-        Im Folgenden sehen Sie alle rechnerisch möglichen, ganzzahlig gerundeten Durchschnittswerte Ihrer
-        Gruppenmitglieder. Bitte geben Sie die Höhe des Betrags an (in geraden Cent-Schritten - 0,2,4,6, ... bis 200
-        Cent), den Sie für den jeweiligen durchschnittlichen Beitrag Ihrer Mitspieler beisteuern wollen. D.h. Sie geben
-        an, wie viel Sie beitragen möchten, wenn Ihre Gruppenmitglieder durchschnittlich 0, 10, 20, … 200 Cent
+        Nun folgt Teil <b>B</b> der Entscheidungssituation.<br><br>
+        Im Folgenden sehen Sie alle rechnerisch möglichen Durchschnittswerte Ihrer Gruppenmitglieder in 10er
+        Cent-Schritten. Bitte geben Sie die Höhe des Betrags an (in geraden Cent-Schritten - 0, 2, 4, 6, ... bis 200
+        Cent), den Sie für den jeweiligen <b>durchschnittlichen Beitrag</b> Ihrer Mitspieler beisteuern wollen. D.h. Sie
+        geben an, wie viel Sie beitragen möchten, wenn Ihre Gruppenmitglieder durchschnittlich 0, 10, 20, … 200 Cent
         beitragen.<br><br>
+
         Nachdem alle Gruppenmitglieder ihre Entscheidung getroffen haben, wird eine Person in der Gruppe zufällig
-        ausgewählt und der Durchschnitt der Beiträge ihrer Gruppenmitglieder berechnet. Für diese ausgewählte Person
+        ausgewählt und der Durchschnitt der Beiträge ihrer Gruppenmitglieder berechnet. Für die ausgewählte Person
         wird das angegebene Beitragsverhalten zu dem errechneten, gerundeten Durchschnittswert auszahlungsrelevant.
-        D.h., die Wahrscheinlichkeit, dass dieser Teil der Aufgabe ausgezahlt wird, beträgt 1:4.<br><br>
+        Die Wahrscheinlichkeit, dass dieser Teil der Aufgabe ausgezahlt wird, beträgt 1:4. Das heißt, wenn Sie ausgewählt
+        werden und Ihre Gruppenmitglieder durchschnittlich 80 Cent beigetragen haben, wird der Betrag für Sie
+        auszahlungsrelevant, den Sie in das Feld „80 Cent” eingegeben haben.<br><br>
+
+        Bitte geben Sie den Betrag an, den Sie beitragen möchten, wenn Ihre Gruppenmitglieder
+        durchschnittlich den darüberstehenden Betrag beisteuern.<br>
     </p>
+
 
     <div class="w3-container">
         <p align="right">
-            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">?</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black"><b>Info</b></button>
         </p>
 
         <div id="id01" class="w3-modal">
@@ -57,12 +64,13 @@
                 <header class="w3-container w3-black">
                 <span onclick="document.getElementById('id01').style.display='none'"
                 class="w3-button w3-display-topright">&times;</span>
-                <h2>?</h2>
+                <h2>Info</h2>
                 </header>
                 <div style="margin-top: 15px;" class="w3-container">
                     <p>
-                        Bitte geben Sie den Betrag an, den Sie beitragen möchten, wenn Ihre Gruppenmitglieder
-                        durchschnittlich den darüberstehenden Betrag beisteuern.
+                        Stellen Sie sich vor, Sie wüssten, dass Ihre Gruppenmitglieder durchschnittlich 80 Cent beitragen. Wie viel
+                        würden Sie dann beitragen? Dies tragen Sie in das Feld „80 Cent”.
+                        <img src="{{ static 'doc/StrategyMethod.jpg' }}" width="500px"/>
                     </p>
                 </div>
             </div>
