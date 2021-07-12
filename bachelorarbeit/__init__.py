@@ -25,6 +25,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    costs = models.CurrencyField(
+        initial = 0
+    )
     time_end = models.StringField()
     consentGiven = models.BooleanField()
     compr_check_pass = models.BooleanField(
@@ -240,9 +243,16 @@ class Player(BasePlayer):
         blank = True
     )
 
-def condition(p):
+def started(p):
 #    if p.participant.label != "1234555":
     if p.study_started:
+        return True
+    else:
+        return False
+
+def finished(p):
+#    if p.participant.label != "1234555":
+    if p.study_completed and p.use_data and p.compr_check_pass:
         return True
     else:
         return False
@@ -252,29 +262,102 @@ def vars_for_admin_report(subsession):
     with open('LabIds/CountParticipation.txt', 'r') as file:
         count_participants_condition = int(file.read())
 
-    count_participants_all = sum([int(p.study_completed) for p in filter(condition, subsession.get_players())])
+    count_participants_all = sum([int(p.study_completed) for p in filter(started, subsession.get_players())])
+
+    count_participants_finished = sum([int(p.study_completed) for p in filter(finished, subsession.get_players())])
 
     count_participants_started = sum([int(p.study_started) for p in subsession.get_players()])
 
     if count_participants_started > 0:
-        payoffs = sum([p.payoff for p in filter(condition, subsession.get_players())]).to_real_world_currency(subsession.session)
+        total_costs = sum([p.costs for p in filter(started, subsession.get_players())]).to_real_world_currency(subsession.session)
     else:
-        payoffs = 0
+        total_costs = cu(0).to_real_world_currency(subsession.session)
 
     missing_subjects = subsession.session.config['max_number_participants'] - count_participants_condition
 
     if count_participants_condition > 0:
-        predicted_costs = (payoffs / count_participants_all) * subsession.session.config['max_number_participants'] * count_participants_started / count_participants_condition
+        predicted_costs = (total_costs / count_participants_all) * subsession.session.config['max_number_participants'] * count_participants_started / count_participants_condition
     else:
         predicted_costs = "-"
+
+
+    if count_participants_all > 0:
+        average_contribution = sum([p.contribution for p in filter(finished, subsession.get_players())]).to_real_world_currency(subsession.session) / count_participants_finished
+        contribution_0 = sum([p.cond_coop_0 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_1 = sum([p.cond_coop_10 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_2 = sum([p.cond_coop_20 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_3 = sum([p.cond_coop_30 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_4 = sum([p.cond_coop_40 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_5 = sum([p.cond_coop_50 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_6 = sum([p.cond_coop_60 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_7 = sum([p.cond_coop_70 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_8 = sum([p.cond_coop_80 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_9 = sum([p.cond_coop_90 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_10 = sum([p.cond_coop_100 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_11 = sum([p.cond_coop_110 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_12 = sum([p.cond_coop_120 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_13 = sum([p.cond_coop_130 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_14 = sum([p.cond_coop_140 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_15 = sum([p.cond_coop_150 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_16 = sum([p.cond_coop_160 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_17 = sum([p.cond_coop_170 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_18 = sum([p.cond_coop_180 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_19 = sum([p.cond_coop_190 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+        contribution_20 = sum([p.cond_coop_200 for p in filter(finished, subsession.get_players())]) / count_participants_finished
+    else:
+        average_contribution = "-"
+        contribution_0 = 0
+        contribution_1 = 0
+        contribution_2 = 0
+        contribution_3 = 0
+        contribution_4 = 0
+        contribution_5 = 0
+        contribution_6 = 0
+        contribution_7 = 0
+        contribution_8 = 0
+        contribution_9 = 0
+        contribution_10 = 0
+        contribution_11 = 0
+        contribution_12 = 0
+        contribution_13 = 0
+        contribution_14 = 0
+        contribution_15 = 0
+        contribution_16 = 0
+        contribution_17 = 0
+        contribution_18 = 0
+        contribution_19 = 0
+        contribution_20 = 0
+
 
     return dict(
         count_participants_condition = count_participants_condition,
         count_participants_all = count_participants_all,
         count_participants_started = count_participants_started,
-        payoffs = payoffs,
+        total_costs = total_costs,
         missing_subjects = missing_subjects,
-        predicted_costs = predicted_costs
+        predicted_costs = predicted_costs,
+        average_contribution = average_contribution,
+        contribution_0 = contribution_0,
+        contribution_1 = contribution_1,
+        contribution_2 = contribution_2,
+        contribution_3 = contribution_3,
+        contribution_4 = contribution_4,
+        contribution_5 = contribution_5,
+        contribution_6 = contribution_6,
+        contribution_7 = contribution_7,
+        contribution_8 = contribution_8,
+        contribution_9 = contribution_9,
+        contribution_10 = contribution_10,
+        contribution_11 = contribution_11,
+        contribution_12 = contribution_12,
+        contribution_13 = contribution_13,
+        contribution_14 = contribution_14,
+        contribution_15 = contribution_15,
+        contribution_16 = contribution_16,
+        contribution_17 = contribution_17,
+        contribution_18 = contribution_18,
+        contribution_19 = contribution_19,
+        contribution_20 = contribution_20
     )
 
 
@@ -282,7 +365,7 @@ def vars_for_admin_report(subsession):
 class Introduction(Page):
     def is_displayed(player):
         player.study_started = True
-        player.payoff = player.session.config['participation_fee'] / player.session.config['real_world_currency_per_point']
+        player.costs = player.session.config['participation_fee'] / player.session.config['real_world_currency_per_point']
         return True
     def before_next_page(player, timeout_happened):
         import datetime
@@ -413,7 +496,7 @@ class SeriousnessCheck(Page):
 
     def before_next_page(player, timeout_happened):
         player.study_completed = True
-        player.payoff += player.contribution * 2
+        player.costs += player.contribution + Constants.endowment
 
         import datetime
         player.time_end = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
@@ -423,7 +506,9 @@ class SeriousnessCheck(Page):
 
         with open('LabIds/CountParticipation.txt', 'r') as file:
             txt = int(file.read())
+            print(txt)
             txt += 1
+            print(txt)
         if(player.participant.label != "1234555"):
             if player.compr_check_pass & player.use_data:
                 with open('LabIds/CountParticipation.txt', 'w') as file:
