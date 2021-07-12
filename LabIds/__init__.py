@@ -37,7 +37,7 @@ class IdPage(Page):
         with open('LabIds/CountParticipation.txt', 'r') as file:
             txt = int(file.read())
         if txt > player.session.config['max_number_participants']:
-            return "Sie können leider nicht an dieser Studie teilnehmen, da die Erhebung der Studie beendet ist."
+            return "Sie können leider nicht teilnehmen, da die Studie geschlossen ist."
 
         # Only digits
         if any([c not in digits for c in values['DecisionLabId']]):
@@ -60,6 +60,12 @@ class IdPage(Page):
             txt = file.read()
         if(values['DecisionLabId'] in txt and values['DecisionLabId'] != "1234555"):
             return "An dieser Studie haben Sie bereits teilgenommen!"
+
+        # Exclude participants of the pilot study
+        with open('LabIds/PilotStudy.txt', 'r') as file:
+            txt = file.read()
+        if(values['DecisionLabId'] in txt and values['DecisionLabId'] != "1234555"):
+            return "An dieser Studie können Sie leider nicht teilnehmen."
 
     @staticmethod
     def before_next_page(player, timeout_happened):
